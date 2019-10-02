@@ -1,22 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-T = 1
-m = 250
-lamb = 1
-sigma = 0.01
-kappa = 10e-8
-
-# the length of the time array
-Tnum = 400
-
-# not include 0
-time_interval = np.linspace(0, 0.95, num=Tnum, endpoint=False, retstep=True)
-t = (time_interval[0] + time_interval[1])
-
-#init_t_index = 50
-#init_holdings = 0.0003
-
 
 def a_func(t):
     """
@@ -73,7 +57,6 @@ def share_holdings(t, gamma_bridge, init_t_index, init_holdings):
 
     ans = temp1 + temp2
     return ans
-
 
 def createbridge(Tnum):
     """
@@ -146,19 +129,33 @@ def buildpath(Tnum):
     return path
 
 
-gamma_process = buildpath(Tnum)
-gamma_bridge = gamma_process/gamma_process[-1]
-frontier_value = frontier(t, gamma_bridge)
-#shares = share_holdings(t, gamma_bridge, init_t_index, init_holdings)
+if __name__ == '__main__':
+    T = 1
+    m = 250
+    lamb = 1
+    sigma = 0.01
+    kappa = 10e-8
 
-plt.figure(0, figsize=(12, 8))
-plt.plot(t, gamma_bridge, label="Gamma Bridge")
-plt.plot(t, frontier_value, label="Frontier")
-#plt.plot(t[init_t_index:], shares, label="path")
-plt.xlabel('time',  fontsize=15)
-plt.ylabel('units', fontsize=15)
-plt.legend(fontsize = 15)
-plt.show()
+    # the length of the time array
+    Tnum = 400
+
+    # not include 0
+    time_interval = np.linspace(0, 0.95, num=Tnum, endpoint=False, retstep=True)
+    t = (time_interval[0] + time_interval[1])
+
+    gamma_process = buildpath(Tnum)
+    gamma_bridge = gamma_process/gamma_process[-1]
+    frontier_value = frontier(t, gamma_bridge)
+    #shares = share_holdings(t, gamma_bridge, init_t_index, init_holdings)
+
+    plt.figure(0, figsize=(12, 8))
+    plt.plot(t, gamma_bridge, label="Gamma Bridge")
+    plt.plot(t, frontier_value, label="Frontier")
+    #plt.plot(t[init_t_index:], shares, label="path")
+    plt.xlabel('time',  fontsize=15)
+    plt.ylabel('units', fontsize=15)
+    plt.legend(fontsize = 15)
+    plt.show()
 
 
 
