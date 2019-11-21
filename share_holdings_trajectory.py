@@ -193,10 +193,13 @@ class gamma_bridge_generation():
 if __name__ == '__main__':
 
     T = 1
-    m = 2500
+    m = 5177.9
     lamb = 1
     sigma = 0.01
     kappa = 10e-8
+
+    a = 1.6
+    b = -2.62
 
     # the length of the time array
     Tnum =  500
@@ -233,8 +236,8 @@ if __name__ == '__main__':
     plt.xlabel('time',  fontsize=17)
     plt.ylabel('share holdings', fontsize=17)
     plt.legend(fontsize = 12)
-    plt.title("The Step = "+ str(Tnum), fontsize = 23)
     plt.grid()
+    plt.savefig("trajectory.png")
     plt.show()
 
 

@@ -1,4 +1,3 @@
-import csv
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -33,7 +32,7 @@ def plot_intraday_volumn(groups, Tnum):
     """
     keys = list(groups.keys())
 
-    plt.figure(0, figsize=(12, ))
+    plt.figure(0, figsize=(12, 8 ))
 
     for i in np.arange(0, Tnum):
         key_ = keys[i]
@@ -42,14 +41,15 @@ def plot_intraday_volumn(groups, Tnum):
         plt.plot(t, size/sum(size), label="Date"+str(i+1))
 
     plt.xlabel('time',  fontsize=17)
-    plt.ylabel('Volumn', fontsize=17)
+    plt.ylabel('Relative Volumn', fontsize=17)
     plt.legend(fontsize = 12)
-    plt.title("U-shape intraday volumn", fontsize = 23)
+    plt.title("U-shape intraday relative volumn", fontsize = 23)
+    plt.savefig("real_volume.png")
     plt.grid()
     plt.show()
 
 
-def mean_std_relative_volumn(groups, Tnum):
+def statistic_result(groups, Tnum):
     """
     :param groups: the dict with day and volumn size
     :param Tnum: number of days in the calculation
@@ -71,19 +71,16 @@ def mean_std_relative_volumn(groups, Tnum):
     result = pd.DataFrame()
     result["mean"] = df_relative_volumn.mean(axis=1)
     result["std"] = df_relative_volumn.std(axis=1)
+    result["var"] = df_relative_volumn.var(axis=1)
     result["time"] = np.arange(0, 1, 1/len(result)) + 1/len(result)
 
     return result
 
 
 
-
-
-
-
 if __name__ == '__main__':
 
-    trades0700_path = "/Users/huangzz/Desktop/capstone/project_code2/trades0700.csv"
+    trades0700_path = "trades0700.csv"
     data = pd.read_csv(trades0700_path, sep=',')
 
     groups = date_process(data)
@@ -92,28 +89,11 @@ if __name__ == '__main__':
 
     plot_intraday_volumn(groups, 4)
 
-    mean_std = mean_std_relative_volumn(groups, 70)
+    EVresults = statistic_result(groups, 70)
 
-    plt.figure(0, figsize=(10, 5))
+    EVresults.to_csv(r'statistic_result.csv')
 
-    plt.subplot(121)
-    plt.plot(mean_std.time.values, mean_std["mean"].values, label="60 day sample")
-    plt.yscale('linear')
-    plt.title('mean of relative volumn curve')
-    plt.xlabel('time')
-    plt.ylabel('Relative Volumn')
-    plt.legend()
-    plt.grid()
 
-    plt.subplot(122)
-    plt.plot(mean_std.time.values, mean_std["std"].values, label="60 day sample")
-    plt.yscale('linear')
-    plt.title('std of relative volumn curve')
-    plt.xlabel('time')
-    plt.ylabel('Relative Volumn')
-    plt.legend()
-    plt.grid()
-    plt.show()
 
 
 
