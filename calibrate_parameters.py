@@ -84,7 +84,7 @@ def plot_error(errors_set):
 
 if __name__ == '__main__':
 
-    EVresults_path = "/home/zhuangby/project_code2/statistic_result.csv"
+    EVresults_path = "statistic_result.csv"
     EVresults = pd.read_csv(EVresults_path, sep=',')
 
     # x and y are placeholders for our training data
